@@ -1,0 +1,37 @@
+{
+  "name": "@slothpdf/render",
+  "version": "0.3.0",
+  "description": "Fast PDF generation from templates. 16,000+ PDFs/sec. No headless browser.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "slothpdf": "src/cli.ts"
+  },
+  "files": ["src", "README.md"],
+  "keywords": [
+    "pdf", "pdf-generation", "template", "render", "batch",
+    "invoice", "receipt", "report", "html-to-pdf", "fast",
+    "zig", "native", "bun"
+  ],
+  "author": "SlothPDF",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/voidzer0-dev/slothpdf"
+  },
+  "homepage": "https://slothpdf.jsoto.cloud",
+  "bugs": {
+    "url": "https://github.com/voidzer0-dev/slothpdf/issues"
+  },
+  "engines": {
+    "bun": ">=1.1.0"
+  },
+  "optionalDependencies": {
+    "@slothpdf/darwin-arm64": "0.3.0",
+    "@slothpdf/linux-x64": "0.3.0"
+  }
+}
