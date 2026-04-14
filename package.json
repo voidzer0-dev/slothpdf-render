@@ -21,11 +21,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/voidzer0-dev/slothpdf"
+    "url": "https://github.com/voidzer0-dev/slothpdf-render"
   },
   "homepage": "https://slothpdf.jsoto.cloud",
   "bugs": {
-    "url": "https://github.com/voidzer0-dev/slothpdf/issues"
+    "url": "https://github.com/voidzer0-dev/slothpdf-render/issues"
   },
   "engines": {
     "bun": ">=1.1.0"
