@@ -16,7 +16,6 @@ bun add @slothpdf/render
 
 ```ts
 import { render } from "@slothpdf/render";
-import { writeFileSync } from "fs";
 
 const pdf = render(`
   <Page size="A4" margin="20mm">
@@ -25,7 +24,7 @@ const pdf = render(`
   </Page>
 `, { name: "World", description: "Generated with SlothPDF" });
 
-writeFileSync("hello.pdf", pdf);
+await Bun.write("hello.pdf", pdf);
 ```
 
 ## Batch
@@ -33,14 +32,8 @@ writeFileSync("hello.pdf", pdf);
 Pass an array and `render` yields one PDF per row:
 
 ```ts
-const invoices = [
-  { id: "001", item: "Web Development", amount: "$1,200" },
-  { id: "002", item: "Design Services", amount: "$340" },
-  // ... thousands more
-];
-
 for (const { index, buffer } of render(template, invoices)) {
-  writeFileSync(`invoices/${index}.pdf`, buffer);
+  await Bun.write(`invoices/${index}.pdf`, buffer);
 }
 ```
 
@@ -49,7 +42,7 @@ for (const { index, buffer } of render(template, invoices)) {
 All rows into a single multi-page PDF:
 
 ```ts
-const pdf = render(template, rows, { merge: true });
+await Bun.write("report.pdf", render(template, rows, { merge: true }));
 ```
 
 ## ZIP
@@ -57,9 +50,18 @@ const pdf = render(template, rows, { merge: true });
 All rows as a ZIP archive:
 
 ```ts
-const zip = render(template, rows, { zip: true });
-writeFileSync("invoices.zip", zip);
+await Bun.write("invoices.zip", render(template, rows, { zip: true }));
 ```
+
+## Encryption
+
+AES-256 password protection:
+
+```ts
+await Bun.write("secure.pdf", render(template, data, { password: "secret" }));
+```
+
+Works with all modes — single, merge, zip, compress.
 
 ## Init
 
@@ -77,18 +79,15 @@ init({
     logo: "assets/logo.png",
   },
 });
-
-const pdf = render(template, data);
 ```
 
 ## Custom fonts
 
 ```ts
 import { loadFont } from "@slothpdf/render";
-import { readFileSync } from "fs";
 
-loadFont("Inter", readFileSync("Inter-Regular.ttf"));
-loadFont("Inter", readFileSync("Inter-Bold.ttf"), "bold");
+loadFont("Inter", await Bun.file("Inter-Regular.ttf").bytes());
+loadFont("Inter", await Bun.file("Inter-Bold.ttf").bytes(), "bold");
 ```
 
 ```
@@ -102,7 +101,7 @@ loadFont("Inter", readFileSync("Inter-Bold.ttf"), "bold");
 ```ts
 import { loadImage } from "@slothpdf/render";
 
-loadImage("logo", readFileSync("logo.png"));
+loadImage("logo", await Bun.file("logo.png").bytes());
 ```
 
 ```
@@ -183,8 +182,11 @@ The only function you need. Behavior depends on what you pass:
 
 **Options:**
 - **compress** `boolean` — FlateDecode compression (smaller files)
+- **password** `string` — AES-256 encryption
 - **merge** `boolean` — combine all rows into one PDF
 - **zip** `boolean` — package all PDFs into a ZIP
+
+All options are additive — `{ compress: true, password: "secret", merge: true }` works.
 
 ### `init(options)`
 
@@ -204,21 +206,21 @@ Check if a font family is loaded. Returns `boolean`.
 
 ## Performance
 
-Benchmarked on Apple M4, single-threaded, 500 unique invoices with 3–10 line items, embedded TrueType fonts:
+Benchmarked on Apple M4, single-threaded, 1000 unique invoices with 3–10 line items:
 
-| | single latency | batch throughput |
-|---|---|---|
-| **@slothpdf/render** | **0.059ms** median | **16,000 PDFs/sec** |
-| jsPDF | 0.137ms median | 7,168 PDFs/sec |
+| Mode | Latency | Throughput |
+|------|---------|------------|
+| No encryption | 0.057ms | **17,600 /sec** |
+| AES-256 encrypted | 0.067ms | **14,900 /sec** |
 
 Memory is constant after warmup — 50,000 renders with no growth.
 
-Compared to browser-based tools:
+Compared to other tools:
 
 | Tool | ~Speed |
 |------|--------|
-| **SlothPDF** | **16,000 /sec** |
-| jsPDF | 7,168 /sec |
+| **SlothPDF** | **17,600 /sec** |
+| jsPDF | 7,750 /sec |
 | Chromium/Puppeteer | ~18 /sec |
 | wkhtmltopdf | ~8 /sec |
 
