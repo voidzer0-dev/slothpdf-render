@@ -1,10 +1,8 @@
 # @slothpdf/render
 
-Fast PDF generation from templates. **17,000+ PDFs per second.** No headless browser.
+Fast PDF generation from templates. **16,000+ PDFs per second.** No headless browser.
 
-Built on a native engine written in Zig. No Puppeteer, no Chrome, no runtime overhead. Constant memory.
-
-![SlothPDF rendering demo](rendering.gif)
+Built on a native engine written in Zig — no Puppeteer, no Chrome, no runtime overhead. Constant memory.
 
 ## Install
 

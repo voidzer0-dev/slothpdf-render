@@ -44,17 +44,6 @@ const SYMBOLS = {
   slothpdf_result_ptr: { args: [FFIType.ptr], returns: FFIType.ptr },
   slothpdf_result_len: { args: [FFIType.ptr], returns: FFIType.u64 },
   slothpdf_result_free: { args: [FFIType.ptr], returns: FFIType.void },
-  // Streaming batch
-  slothpdf_stream_begin: { args: [FFIType.ptr, FFIType.u64, FFIType.u32], returns: FFIType.ptr },
-  slothpdf_stream_next: { args: [FFIType.ptr, FFIType.ptr, FFIType.u64], returns: FFIType.bool },
-  slothpdf_stream_pdf_ptr: { args: [FFIType.ptr], returns: FFIType.ptr },
-  slothpdf_stream_pdf_len: { args: [FFIType.ptr], returns: FFIType.u64 },
-  slothpdf_stream_end: { args: [FFIType.ptr], returns: FFIType.void },
-  // Batch + zip
-  slothpdf_render_batch: { args: [FFIType.ptr, FFIType.u64, FFIType.ptr, FFIType.u64, FFIType.u32], returns: FFIType.ptr },
-  slothpdf_batch_count: { args: [FFIType.ptr], returns: FFIType.u32 },
-  slothpdf_batch_free: { args: [FFIType.ptr], returns: FFIType.void },
-  slothpdf_batch_to_zip: { args: [FFIType.ptr, FFIType.u32], returns: FFIType.ptr },
   // Fonts & images
   slothpdf_load_font: { args: [FFIType.ptr, FFIType.u64, FFIType.ptr, FFIType.u64, FFIType.u8], returns: FFIType.void },
   slothpdf_has_font: { args: [FFIType.ptr, FFIType.u64], returns: FFIType.u8 },
