@@ -1,6 +1,6 @@
 {
   "name": "@slothpdf/render",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Fast PDF generation from templates. 16,000+ PDFs/sec. No headless browser.",
   "type": "module",
   "main": "src/index.ts",
@@ -31,7 +31,7 @@
     "bun": ">=1.1.0"
   },
   "optionalDependencies": {
-    "@slothpdf/darwin-arm64": "0.3.0",
-    "@slothpdf/linux-x64": "0.3.0"
+    "@slothpdf/darwin-arm64": "0.4.0",
+    "@slothpdf/linux-x64": "0.4.0"
   }
 }
